@@ -4,7 +4,7 @@ import { UseAuthStore } from "../store/ZustandStore";
 const ProtectedRoute = () => {
   const token = UseAuthStore((state) => state.token);
   if (!token) {
-    return <Navigate to={"/register"} />;
+    return <Navigate to={"/"} />;
   }
   return (
     <>

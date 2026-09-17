@@ -24,7 +24,7 @@ const UseApi = <T,>() => {
 
       return response.data;
     } catch {
-      setError("Something went wrong");
+      setError("Something wrong");
     } finally {
       setLoading(false);
     }

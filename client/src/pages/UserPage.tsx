@@ -15,9 +15,8 @@ const UserPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(user);
+
       setData(user.data);
-      console.log(data);
     };
     getUser();
   }, []);

@@ -1,55 +1,34 @@
-מבחן סופי - אפליקציית אימות ב-React
+Authentication Project:
 
-סטאק: React + TypeScript + Vite . Node/Express
-סקירה כללית
-בנו אפליקציה קטנה full-stack
-עם אימות. אין מפרט עיצובי - העיצוב נתון לשיקולכם המלא
-CSS רגיל, UI, או כל מה שנוח לכם. המיקוד הוא על ארכיטקטורת React/TS זרימת האימות שעובדת כמו שצריך,
-לא בליטוש ויזואלי.
-דרישות פונקציונליות
+The goal of this assessment is to demonstrate the ability to adapt to unfamiliar topics while showcasing existing areas of expertise. Below are the technologies used and a brief explanation of the project.
 
-1. עמוד Login / Sign Up
-   • טופס להתחברות עם פרטי משתמש קיימים, ודרך להרשמה כמשתמש חדש (עמוד אחד עם מעבר בין מצבים, או
-   שני עמודים/נתיבים נפרדים - לבחירתכם).
-   • לאחר התחברות/הרשמה מוצלחת, המשתמש מועבר לעמוד הפרופיל שלו.
-2. עמוד פרופיל
-   • מציג את פרטי המשתמש המחובר (שם, אימייל, וכל דבר נוסף שאתם שומרים).
-   • חייב להיות נתיב מוגן - משתמש מנותק שמגיע ישירות ל-URL הזה צריך להיות מועבר לעמוד ההתחברות, ולא
-   לראות את תוכן העמוד.
-   • כולל כפתור ניתוק / Log out שמנקה את ה local-storage ומחזיר את המשתמש לעמוד ההתחברות.
-3. שמירת local-storage
-   • האימות חייב להישמר ב-localStorage.
-   • רענון העמוד בזמן שהמשתמש מחובר צריך להשאיר אותו מחובר .
-4. בונוס - העלאת קובץ בהרשמה
-   • הוסיפו שדה קובץ אופציונלי (למשל תמונת פרופיל) לטופס ההרשמה.
-   • הקובץ חייב לעלות ולהישמר בשרת (לא רק בזיכרון הדפדפן) להיות משויך למשתמש הזה.
-   דרישות טכניות
-   המימוש שלכם חייב להדגים:
-   • קומפוננטות ו-props - פיצלו את ה-UI לקומפוננטות לשימוש חוזר שמקבלות props, לא קובץ אחד ענק.
-   • Hooks - שימוש מתאים ב-useState, useEffect וכו&#39;.
-   • Hook מותאם אישית - הוציאו את לוגיקת האימות (login/signup/logout/current user) לתוך hook משלכם
-   במקום להשאיר אותה inline בתוך קומפוננטות.
-   • localStorage - קריאה/כתיבה של הטוקן, ושחזור ה local-storage בטעינת העמוד.
-   • JWT - השרת מנפיק JWT אמיתי ב-login/signup; השרת מאמת אותו ב-endpoints מוגנים (אל תזייפו את זה
-   רק בפרונטאנד).
-   • Routing - react-router עם לפחות נתיב מוגן אחד.
-   מה להגיש
-   • קישור לריפו שלכם (פרונטאנד + בקאנד).
-   • ודאו ש-npm install &amp;&amp; npm run dev עובד מתוך clone נקי בשני הצדדים.
-   • ציינו בקצרה ב-README איך להריץ (פורטים, משתני סביבה וכו&#39;).
+Explanation:
 
-מחוון ציון (100 נק&#39; + 15 בונוס)
+This project uses authentication to manage user access:
 
-# דרישה נקודות
+Data is stored in a MongoDB database, and passwords are hashed using bcrypt.
 
-1 הקמת הפרויקט ומבנה (React+TS+Vite, מבנה תיקיות הגיוני) 5
-2 UI של Login/Signup - טפסים, ולידציה, טיפול בשגיאות 10
-3 לוגיקת Signup - קריאת API, משתמש חדש נוצר בפועל בשרת 10
-4 לוגיקת Login - קריאת API, בדיקת פרטים נכונה, החזרת JWT 10
-5 Hook מותאם לאימות (login/signup/logout/current user עטופים) 10
-6 נתיב מוגן - משתמשים מנותקים נחסמים/מועברים כמו שצריך 15
-7 עמוד פרופיל - מציג נתוני משתמש אמיתיים שנשלפים באמצעות הטוקן 10
-8 Logout/ניתוק - מנקה טוקן, מסיים local-storage כמו שצריך 10
-9 איכות קוד - שימוש חוזר בקומפוננטות/props, טיפוסי TypeScript, בלי any 10
-10 ה local-storage נשמר נכון ברענון עמוד (localStorage) 10
-בונוס העלאת קובץ בהרשמה, נשמר בצד שרת ומקושר למשתמש +15
+Access to the user page is restricted until a valid token—linked to the user's ID—is present in local storage.
+
+Upon logging in or creating an account, the user is redirected to the user page; this page displays only their name and email address, omitting the password for security reasons.
+
+Technologies used:
+
+Backend: dotenv, express, bcrypt, jwt, mongodb, cors
+Frontend: axios, zustand, react, react-router-dom
+
+flow:
+
+register => submit => axios / fetch API => main => router => controller => service => db => response => navigate to /user => view data
+
+Of course, validation is performed; the login process is also interesting and essentially similar.
+
+A protected route prevents access to the user page if `localStorage` lacks a valid token, thanks to a check performed by the `authMiddleware`.
+
+Usage instructions:
+
+Fill in the required fields in the .env.example file.
+Run `npm run dev` on the server side (backend).
+Do the same on the client side (frontend).
+
+Enjoy!

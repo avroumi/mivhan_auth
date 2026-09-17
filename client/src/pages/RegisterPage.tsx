@@ -1,12 +1,14 @@
 import { useState } from "react";
 import UseApi from "../hooks/UseApi";
 import { useNavigate } from "react-router-dom";
+import { UseAuthStore } from "../store/ZustandStore";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const setToken = UseAuthStore((state) => state.setToken);
 
   const { loading, error, request } = UseApi();
 
@@ -20,13 +22,15 @@ const RegisterPage = () => {
         email,
       },
     );
-    if (result.data) {
-      navigate("/login");
+    if (result?.token) {
+      setToken(result.token);
+      navigate("/user");
     }
   };
 
   return (
     <div className="register">
+      <h1>Welcome to the super Mivhan</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();

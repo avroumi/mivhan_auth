@@ -7,9 +7,9 @@ export const registerController = async (req, res, next) => {
     if (!name || !password || !email) {
       throw new AppError("Data missing", 400);
     }
-    const result = await authService({ name, password, email });
+    const token = await authService({ name, password, email });
     res.status(201).json({
-      message: "User create succesfully",
+      token,
     });
   } catch (error) {
     next(error);
@@ -20,7 +20,7 @@ export const loginController = async (req, res, next) => {
   try {
     const { password, email } = req.body;
     if (!email || !password) {
-      throw new AppError("Data missing");
+      throw new AppError("Data missing", 400);
     }
     const token = await loginService(email, password);
     res.status(200).json({ token });

@@ -4,6 +4,14 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { AppError } from "../utils/AppError.js";
 
+const createToken = (userId) => {
+  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+
+  return token;
+};
+
 export const authService = async (data) => {
   const { name, email, password } = data;
   const existByemail = await findUserByEmail(email);
@@ -17,7 +25,7 @@ export const authService = async (data) => {
     password: hashedPassword,
     email,
   });
-  return userId;
+  return createToken(userId);
 };
 
 export const loginService = async (email, password) => {
@@ -25,12 +33,10 @@ export const loginService = async (email, password) => {
   if (!user) {
     throw new AppError("User not found", 404);
   }
-  const isMatch = bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new AppError("Wrong password", 401);
   }
-  const token = jwt.sign({ UserId: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
-  return token;
+
+  return createToken(user._id);
 };

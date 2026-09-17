@@ -1,5 +1,6 @@
 import express from "express";
 import "dotenv/config";
+import cors from "cors";
 import { errorMiddleware } from "./src/middleware/errorMiddleware.js";
 import { connectDb } from "./src/config/mongodb.js";
 import authRoute from "./src/routes/authRoutes.js";
@@ -9,6 +10,16 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5174",
+      "http://127.0.0.1:5174",
+      "http://127.0.0.1:5173",
+      "http://localhost:5173",
+    ],
+  }),
+);
 
 app.get("/health", (req, res) => {
   res.json({

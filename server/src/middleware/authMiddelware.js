@@ -9,6 +9,7 @@ export const authMiddelware = async (req, res, next) => {
       throw new AppError("Acces denied", 403);
     }
     const [bearer, token] = auth.split(" ");
+
     if (!bearer || !token) {
       throw new AppError("Access denied", 403);
     }
@@ -16,7 +17,9 @@ export const authMiddelware = async (req, res, next) => {
     if (!decoded) {
       throw new AppError("Access denied", 401);
     }
+
     req.userId = decoded.userId;
+    next();
   } catch (error) {
     next(error);
   }

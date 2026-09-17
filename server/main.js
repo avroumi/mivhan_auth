@@ -3,6 +3,7 @@ import "dotenv/config";
 import { errorMiddleware } from "./src/middleware/errorMiddleware.js";
 import { connectDb } from "./src/config/mongodb.js";
 import authRoute from "./src/routes/authRoutes.js";
+import userRoute from "./src/routes/userRoutes.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +17,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/auth", authRoute);
+app.use(userRoute);
 
 app.use(errorMiddleware);
 

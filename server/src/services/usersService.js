@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { connectDb } from "../config/mongodb.js";
 
 const db = await connectDb();
@@ -12,5 +13,10 @@ export const createUser = async (data) => {
 
 export const findUserByEmail = async (email) => {
   const user = await usersCollection.findOne({ email });
+  return user;
+};
+
+export const finduserByid = async (userId) => {
+  const user = await findOne({ _id: new ObjectId(userId) });
   return user;
 };
